@@ -335,3 +335,49 @@ f x = trace ("f called with " ++ show x) $ x + 1
 * sum the odd numbers of a list (`odd`)
 * find the first perfect palindrome
 * ROT13 encryption (`String`s are list of `Char`s, `ord`, `chr`)
+
+# Hands-On (3)
+
+* square a list
+
+~~~~ {.haskell}
+square = map (^ 2)
+~~~~
+
+* sum the odd numbers of a list
+
+~~~~ {.haskell}
+sumOdd = sum . filter odd
+~~~~
+
+# Hands-On (4)
+
+* find the first perfect palindrome
+
+~~~~ {.haskell}
+isPerfect x = x == sumDiv x
+  where
+    sumDiv n = sum [ x | x <- [1..n `div` 2],
+                         n `mod` x == 0]
+
+isPalindrome x = x == (read . reverse . show $ x)
+
+number = head $ filter both [1..]
+  where
+    both x = isPalindrome x && isPerfect x
+~~~~
+
+# Hands-On (5)
+
+* ROT13 encryption
+
+~~~~ {.haskell}
+import Data.Char (ord, chr)
+
+translate c = chr (newVal + ord 'a')
+  where
+    newVal = (oldVal + 13) `mod` 26
+    oldVal = ord c - ord 'a'
+
+rot13 msg = map translate msg
+~~~~
