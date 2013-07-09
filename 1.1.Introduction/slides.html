@@ -445,6 +445,47 @@ f x <span class="fu">=</span> trace (<span class="st">&quot;f called with &quot;
 <li>ROT13 encryption (<code>String</code>s are list of <code>Char</code>s, <code>ord</code>, <code>chr</code>)</li>
 </ul>
 </section>
+<section id="hands-on-3" class="slide level1">
+<h1>Hands-On (3)</h1>
+<ul>
+<li>square a list</li>
+</ul>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">square <span class="fu">=</span> <span class="fu">map</span> (<span class="fu">^</span> <span class="dv">2</span>)</code></pre>
+<ul>
+<li>sum the odd numbers of a list</li>
+</ul>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">sumOdd <span class="fu">=</span> <span class="fu">sum</span> <span class="fu">.</span> <span class="fu">filter</span> <span class="fu">odd</span></code></pre>
+</section>
+<section id="hands-on-4" class="slide level1">
+<h1>Hands-On (4)</h1>
+<ul>
+<li>find the first perfect palindrome</li>
+</ul>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">isPerfect x <span class="fu">=</span> x <span class="fu">==</span> sumDiv x
+  <span class="kw">where</span>
+    sumDiv n <span class="fu">=</span> <span class="fu">sum</span> [ x <span class="fu">|</span> x <span class="ot">&lt;-</span> [<span class="dv">1</span><span class="fu">..</span>n <span class="ot">`div`</span> <span class="dv">2</span>],
+                         n <span class="ot">`mod`</span> x <span class="fu">==</span> <span class="dv">0</span>]
+
+isPalindrome x <span class="fu">=</span> x <span class="fu">==</span> (<span class="fu">read</span> <span class="fu">.</span> <span class="fu">reverse</span> <span class="fu">.</span> <span class="fu">show</span> <span class="fu">$</span> x)
+
+number <span class="fu">=</span> <span class="fu">head</span> <span class="fu">$</span> <span class="fu">filter</span> both [<span class="dv">1</span><span class="fu">..</span>]
+  <span class="kw">where</span>
+    both x <span class="fu">=</span> isPalindrome x <span class="fu">&amp;&amp;</span> isPerfect x</code></pre>
+</section>
+<section id="hands-on-5" class="slide level1">
+<h1>Hands-On (5)</h1>
+<ul>
+<li>ROT13 encryption</li>
+</ul>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import</span> Data.Char (ord, chr)
+
+translate c <span class="fu">=</span> <span class="fu">chr</span> (newVal <span class="fu">+</span> <span class="fu">ord</span> <span class="ch">'a'</span>)
+  <span class="kw">where</span>
+    newVal <span class="fu">=</span> (oldVal <span class="fu">+</span> <span class="dv">13</span>) <span class="ot">`mod`</span> <span class="dv">26</span>
+    oldVal <span class="fu">=</span> <span class="fu">ord</span> c <span class="fu">-</span> <span class="fu">ord</span> <span class="ch">'a'</span>
+
+rot13 msg <span class="fu">=</span> <span class="fu">map</span> translate msg</code></pre>
+</section>
 <!-- {{{{ dzslides core
 #
 #
