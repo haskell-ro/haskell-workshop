@@ -3,6 +3,8 @@ module Main where
 import Control.Monad.State
 import Data.List
 
+import Debug.Trace
+
 data Tree a
   = Leaf a
   | Node (Tree a) a (Tree a)
@@ -61,9 +63,9 @@ transform (Node l v r) = do
 complex'' t = evalState (transform t) 0
 
 find3 p1 l1 p2 l2 p3 l3 = do
-  t1 <- find p1 l1
-  t2 <- find p2 l2
-  t3 <- find p3 l3
+  t1 <- find p1 l1 >>= liftM (\x -> trace ("p1 returned " ++ show x) x) . return
+  t2 <- find p2 l2 >>= liftM (\x -> trace ("p2 returned " ++ show x) x) . return
+  t3 <- find p3 l3 >>= liftM (\x -> trace ("p3 returned " ++ show x) x) . return
   return (t1, t2, t3)
 
 find3' p1 l1 p2 l2 p3 l3 =
@@ -76,5 +78,6 @@ find3' p1 l1 p2 l2 p3 l3 =
     _ -> Nothing
 
 main = do
+  x <- return 42
   s <- getLine
-  print s
+  print (x, s)
