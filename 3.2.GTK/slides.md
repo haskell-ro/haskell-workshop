@@ -1,27 +1,41 @@
-% Title
-% Author
-% Date
+% GTK
+% Mihai Maruseac
+% 11.07.2013
 
-# Slide title
+# Install
+
+~~~~ {.bash}
+cabal install gtk2hs-buildtools
+cabal install glib
+cabal install gtk
+~~~~
+
+# Main Window
 
 ~~~~ {.haskell}
-main = putStrLn "hello!"
+import Graphics.Rendering.Cairo
+import Graphics.UI.Gtk
 ~~~~
 
-* A
-
-* B
-
-* C
-
-    * [realworldhaskell.org](http://book.realworldhaskell.org/)
-
-# Copy these slides (if you want)
-
-~~~~
-git clone ...
+~~~~ {.haskell}
+main = do
+    initGUI
+    window <- windowNew
+    window `on` deleteEvent $
+        liftIO mainQuit >> return False
+    widgetShowAll window
+    mainGUI
 ~~~~
 
-# Fin
+# The Pacman in a new world
 
-Thanks for sticking with the slideshow so far!
+Live demo
+
+# Other GUI frameworks
+
+* wxHaskell
+* qtHaskell
+* lGTK
+    * lenses and GTK
+* reactive-banana
+    * functional reactive programming (FRP)
