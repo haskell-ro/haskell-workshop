@@ -28,10 +28,10 @@ displayTableElements tb = do
   mapM_ (flip imageSetFromFile "imgs/road.png" . snd) $ filter (\((x, y), _) -> y == 1 && x > 0 && x < 6) images
   mapM_ (flip imageSetFromFile "imgs/road.png" . snd) $ filter (\((x, y), _) -> y == 5 && x > 0 && x < 6) images
   mapM_ (flip imageSetFromFile "imgs/road.png" . snd) $ filter (\((x, y), _) -> y == 9 && x > 0 && x < 6) images
+  mapM_ (flip imageSetFromFile "imgs/pacman.png" . snd) $ filter (\((x, y), _) -> x == 1 && y == 1) images
   return ()
 
 attachImg tb path (x, y) = do
   img <- imageNewFromFile path
   tableAttach tb img x (x + 1) y (y + 1) [] [] 1 1
   return ((x, y), img)
-
