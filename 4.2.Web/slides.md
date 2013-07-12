@@ -120,14 +120,6 @@ $ ./site help
 * high performance
 * RESTful web application
 
-# Type Safety
-
-TODO: xkcd
-
-# Type Safety
-
-TODO: yanesposito's strings
-
 # Async
 
 * Web is async
@@ -240,3 +232,9 @@ postMirrorR =  do
 * scaffolding helps in fast startup
 * scaffolding provides a set of good practices
 * scaffolding gets in the way of learning Yesod
+
+# Other aspects
+
+* internationalisation
+* copyright & GA
+* testing via `yesod test`
