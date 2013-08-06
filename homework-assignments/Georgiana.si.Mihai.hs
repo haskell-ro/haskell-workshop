@@ -1,5 +1,3 @@
-`code.hs`
-```
 {-# LANGUAGE RecordWildCards #-}
 
 module Main where
@@ -118,6 +116,3 @@ movement_list = zip3 pac ghost drops
 first (x,_,_) = x
 second (_,y,_) = y
 third (_,_,z) = z
-```
-
-
