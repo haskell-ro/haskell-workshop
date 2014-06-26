@@ -1,11 +1,13 @@
 haskell-workshop
 ================
 
-"Haskell from N00b to Real World Programmer" Workshop @ ROSEdu Summer Workshops
+"Tweλve days of functional programming" Workshop @ ROSEdu Summer Workshops
 
-More details and slides to come soon. That is, in 12 hours from now.
+This will serve as a repository for slides and additional material, published
+as Markdown/Pandoc source code and/or PDF files.
 
 See schedule, prerequisites and registration details on [ROSEdu's Summer
-Workshops wiki][wiki].
+Workshops wiki][wiki] and the workshop's [official page][lambda].
 
-[wiki]: http://workshop.rosedu.org/2013/sesiuni/haskell "Haskell workshop"
+[wiki]: http://workshop.rosedu.org/2014/sesiuni/haskell "Haskell workshop"
+[lambda]: http://lambda.rosedu.org "λ.rosedu.org"
