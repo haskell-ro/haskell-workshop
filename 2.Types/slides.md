@@ -26,7 +26,7 @@ Loose definition:
 
 # Digression
 
-## What types does your PC understand?
+* What types does your PC understand?
 
 . . .
 
@@ -43,12 +43,16 @@ Loose definition:
 2: r1 <- val@r0 ; get val from mem addr in r0
 ~~~~
 
+. . .
+
 * ... or the following
 
 ~~~~
 1: r0 <- 0
 2: goto instr@r0 ; jump to instr at mem addr in r0
 ~~~~
+
+. . .
 
 * What are the semantics of these programs?
 
@@ -64,6 +68,8 @@ Loose definition:
 * `0` is a "special" **address**
 	* but an ordinary **integer**!
 
+. . .
+
 * Accessing arbitrary addresses can cause programs to
 	* fail
 	* (*or worse*) misbehave
@@ -72,9 +78,9 @@ Loose definition:
 # So, why do we need type checking?
 
 * We're careless
-
-* We need a tool to whip our fingers when we go wrong
-
+* We need a tool to help us understand our code
+	* "Programs must be written for people to read, and only incidentally for
+	  machines to execute."
 * We need to be able to reason about our programs
 	* "Lightweight formal verification"
 
@@ -82,11 +88,7 @@ Loose definition:
 
 * In set theory, we would say, e.g. $-2 \in \mathbb{Z}$
 
-* In Haskell, we say:
-
-~~~~ {.haskell}
--2 :: Integer
-~~~~
+* In Haskell, we say, `-2 :: Integer`
 
 # Basic Haskell Types
 
@@ -107,7 +109,7 @@ True :: Bool
 [[3,4], []] :: [[Int]]
 ~~~~
 
-# Compounde Types: Lists (2)
+# Compound Types: Lists (2)
 
 * What happens if we write:
 
@@ -142,12 +144,21 @@ In an equation for `it': it = [3, 4, 'a', ....] :: [Int]
 # Functions and Type Variables (1)
 
 ~~~~ {.haskell}
-f x = x
+f :: Int -> Int
+f = ...
 ~~~~
+
+* `->` is the function type
+* `f` is a function receiving an `Int`, returning an `Int`
+
+# Functions and Type Variables (2)
 
 ~~~~ {.haskell}
 f :: Int -> Int
+f x = x
 ~~~~
+
+. . .
 
 Why not:
 
@@ -155,15 +166,14 @@ Why not:
 f True
 ~~~~
 
-# Functions and Type Variables (2)
-
-~~~~ {.haskell}
-f x = x
-~~~~
+# Functions and Type Variables (3)
 
 ~~~~ {.haskell}
 f :: a -> a
+f x = x
 ~~~~
+
+. . .
 
 * Capital letter $\rightarrow$ proper type
 * Small letter $\rightarrow$ type variable (stands for multiple types)
@@ -173,7 +183,7 @@ We say that `f` is **polymorphic**
 * Single implementation
 * Multiple types
 
-# Functions and Type Variables (3)
+# Functions and Type Variables (4)
 
 * Functions are curried
 
@@ -182,6 +192,7 @@ a -> b -> c
 a -> (b -> c) -- same as above
 (a -> b) -> c -- different type
 ~~~~
+
 # Types as documentation (1)
 
 * Which functions have type `a -> a`?
@@ -324,18 +335,30 @@ data Maybe a = Nothing | Just a
 data Either a b = Left a | Right b
 ~~~~
 
-# Trees (Recursive Data Types)
+# Recursive Data Types
+
+* Naturals
 
 ~~~~ {.haskell}
-data BinaryLeafTree a =
-      BLTLeaf a
-    | BLTNode (BinaryLeafTree a) (BinaryLeafTree a)
+data N = Zero | Succ N
+~~~~
+
+. . .
+
+* (User-defined) lists
+
+~~~~ {.haskell}
+data List a = EmptyL | ConsL a (List a)
+~~~~
+
+. . .
+
+* Binary trees
+
+~~~~ {.haskell}
 data BinaryTree a =
-      BTLeaf a
+      BTEmpty
     | BTNode (BinaryTree a) a (BinaryTree a)
-data RoseTree a =
-	  RTLeaf a
-    | RTNode a [RoseTree a]
 ~~~~
 
 # Working with Programmer defined Types
@@ -344,13 +367,13 @@ data RoseTree a =
 data Container a = Empty | Holding a
 
 isEmpty :: Container a -> Bool
-isEmpty Empty = True
-isEmpty _ = False
+isEmpty Empty 	= True
+isEmpty _ 		= False
 -- isEmpty (Holding _ ) = False
 
 place :: Container a -> a -> Container a
-place Empty x = Holding x
-place _ _ = error "Container already full"
+place Empty x 	= Holding x
+place _ _ 		= error "Container already full"
 ~~~~
 
 # Space optimization
