@@ -9,5 +9,5 @@ as Markdown/Pandoc source code and/or PDF files.
 See schedule, prerequisites and registration details on [ROSEdu's Summer
 Workshops wiki][wiki] and the workshop's [official page][lambda].
 
-[wiki]: http://workshop.rosedu.org/2014/sesiuni/haskell "Haskell workshop"
+[wiki]: http://workshop.rosedu.org/2015/sesiuni/haskell "Haskell workshop"
 [lambda]: http://lambda.rosedu.org "λ.rosedu.org"
