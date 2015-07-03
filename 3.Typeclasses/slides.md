@@ -1,6 +1,6 @@
-% An Introduction to Haskell Typeclasses
+% An Introduction to Haskell Type Classes
 % Lucian Mogosanu
-% 02.07.2014
+% 05.07.2015
 
 # Haskell Types: a recap (1)
 
@@ -20,7 +20,7 @@ data ProductType a b = MkP a b -- (a, b)
 
 . . .
 
-* Any combination between the two
+* Any combination of the two
 
 ~~~~ {.haskell}
 data MyNonsensicalDataType =
@@ -35,12 +35,13 @@ data MyNonsensicalDataType =
 ~~~~ {.haskell}
 data Maybe a = Nothing | Just a
 data Either a b = Left a | Right b
+
 -- syntactic sugar ahead
 data [] a = [] | a : ([] a) -- [a]
 data (,) a b = (,) a b -- (a, b)
 ~~~~
 
-# Typeclasses: constraints
+# Type Classes: constraints
 
 ~~~~ {.haskell}
 (+) :: Num a => a -> a -> a
@@ -49,7 +50,7 @@ show :: Show a => a -> String
 (>) :: Ord a => a -> a -> Bool
 ~~~~
 
-# Typeclasses: definition
+# Type Classes: definition
 
 * Interfaces for types sharing a common property
 * Example: `Float` and `Int` are both `Num`s
@@ -60,14 +61,14 @@ class Show a where
     show :: a -> String
 ~~~~
 
-# Typeclasses: definition (2)
+# Type Classes: definition (2)
 
 * Each type has its own implementation
 * **Ad-hoc polymorphism**
 
 ~~~~ {.haskell}
 instance Show MyType where
-	...
+	show x = ...
 ~~~~
 
 # Ad-hoc Polymorphism: defining instances
@@ -81,18 +82,14 @@ class Show a where
 ~~~~
 
 ~~~~ {.haskell}
-data Color = Red | Green | Blue deriving Show
-~~~~
-
-~~~~ {.haskell}
 data Container a = Empty | Holding a
 
 instance Show (Container Int) where
     show (Holding x) = "[ " ++ show x ++ " ]"
-    show _ = "[ ]"
+    show _           = "[ ]"
 ~~~~
 
-# Common Typeclasses: Num
+# Common Type Classes: Num
 
 ~~~~ {.haskell}
 class Num a where
@@ -108,7 +105,7 @@ class Num a where
 
 * Define all but one of `(-)` and `negate`
 
-# Common Typeclasses: Ord
+# Common Type Classes: Ord
 
 ~~~~ {.haskell}
 class Eq a => Ord a where
@@ -187,11 +184,13 @@ Maybe :: * -> *
 Maybe Int :: *
 ~~~~
 
+. . .
+
 * Useful for describing parametric types
 * Haskell code should have a well-formed type
 	* i.e. having the kind `*`
 
-# Typeclasses for parametric types
+# Type Classes for Parametric Types
 
 * Parametric types can be polymorphic too
 * Example: What is the type of **all** "containers"?
@@ -202,7 +201,7 @@ Maybe Int :: *
 container :: c a
 ~~~~
 
-# Typeclasses for parametric types (2)
+# Type Classes for Parametric Types (2)
 
 * We want a `map`-like operation on trees
 * We want a `map`-like operation on containers
@@ -240,7 +239,7 @@ data Container a = Empty | Holding a
 * Define `fmap` for `Container`
 * Definition is identical for `Maybe`
 
-# Custom typeclasses
+# Custom Type Classes
 
 * Source: \url{learnyouahaskell.com}
 
