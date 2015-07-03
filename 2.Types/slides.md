@@ -145,10 +145,10 @@ In an equation for `it': it = [3, 4, 'a', ....] :: [Int]
 
 ~~~~ {.haskell}
 f :: Int -> Int
-f = ...
+f x = ...
 ~~~~
 
-* `->` is the function type
+* `(->)` is the function type
 * `f` is a function receiving an `Int`, returning an `Int`
 
 # Functions and Type Variables (2)
@@ -260,6 +260,8 @@ f (x, y) = x
 type String = [Char]
 ~~~~
 
+. . .
+
 ~~~~ {.haskell}
 type Point = (Double, Double)
 type Size = (Double, Double)
@@ -308,6 +310,8 @@ data Person
     | Female String String Int -- name, maiden name, age
 ~~~~
 
+. . .
+
 * Constructors are **functions**
 
 ~~~~ {.haskell}
@@ -345,7 +349,7 @@ data N = Zero | Succ N
 
 . . .
 
-* (User-defined) lists
+* Lists
 
 ~~~~ {.haskell}
 data List a = EmptyL | ConsL a (List a)
@@ -367,13 +371,13 @@ data BinaryTree a =
 data Container a = Empty | Holding a
 
 isEmpty :: Container a -> Bool
-isEmpty Empty 	= True
-isEmpty _ 		= False
+isEmpty Empty           = True
+isEmpty _               = False
 -- isEmpty (Holding _ ) = False
 
 place :: Container a -> a -> Container a
-place Empty x 	= Holding x
-place _ _ 		= error "Container already full"
+place Empty x   = Holding x
+place _ _       = error "Container already full"
 ~~~~
 
 # Space optimization
@@ -444,23 +448,23 @@ P :: String -> String -> String -> Int -> Int ->
     Person -> Person -> Person
 ~~~~
 
-# Typeclass Constraints (1)
+# Type class Constraints (1)
 
 ~~~~ {.haskell}
-data RoseTree a =
-    RTLeaf a
-  | RTNode a [RoseTree a]
+data Container a =
+    Empty
+  | Holding a
 ~~~~
 
 ~~~~
-> :t RTNode 3 []
-> RTNode 3 [] == RTNode 3 []
-> RTNode 3 []
+> :t Holding 3
+> Holding 'a' == Holding 'a'
+> place Empty 'a'
 ~~~~~
 
-# Typeclass Constraints (2)
+# Type class Constraints (2)
 
-* We must "enrol" `RoseTree` into `Show` and `Eq`
+* We must "enrol" `Container` into `Show` and `Eq`
 
 ~~~~ {.haskell}
 class Show a where
@@ -472,24 +476,24 @@ class Eq a where
     (==) :: a -> a -> Bool
 ~~~~
 
-# Typeclass Constraints (3)
+# Type class Constraints (3)
 
-* Haskell can automatically derive most typeclass instances:
+* Haskell can automatically derive most type class instances:
 
 ~~~~ {.haskell}
-data RoseTree a =
-    RTLeaf a
-  | RTNode a [RoseTree a]
+data Container a =
+    Empty
+  | Holding a
   deriving Show
 ~~~~
 
-# Typeclass Constraints (4)
+# Type class Constraints (4)
 
 * Final definition:
 
 ~~~~ {.haskell}
-data RoseTree a =
-    RTLeaf a
-  | RTNode a [RoseTree a]
+data Container a =
+    Empty
+  | Holding a
   deriving (Show, Eq)
 ~~~~
