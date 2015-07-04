@@ -82,11 +82,11 @@ class Show a where
 ~~~~
 
 ~~~~ {.haskell}
-data Container a = Empty | Holding a
+data Container = Empty | Holding Int
 
-instance Show (Container Int) where
-    show (Holding x) = "[ " ++ show x ++ " ]"
-    show _           = "[ ]"
+instance Show Container where
+  show Empty        = "[ ]"
+  show (Holding x)  = "[ " ++ show x ++ " ]"
 ~~~~
 
 # Common Type Classes: Num
@@ -128,7 +128,7 @@ sort :: Ord a => [a] -> [a]
 
 ~~~~ {.haskell}
 data Person = P
-  { pnc :: String -- Int?
+  { pnc :: String
   , name :: String
   , age :: Int
   , married :: Bool
@@ -144,34 +144,68 @@ instance Eq Person where
 
 # Hands-on (2)
 
-* Parameterize pnc
+* Monomorphic container (of `Int`)
 
 ~~~~ {.haskell}
-data Person2 a = P2
-  { pnc2 :: a
-  , name2 :: String
-  , age2 :: Int
-  , married2 :: Bool
-  } deriving Show
+data Container = Empty | Holding Int
 ~~~~
 
-* `Eq` instance for `Person2`
+* `Eq` instance for `Container`
 
 ~~~~ {.haskell}
-instance Eq (Person2 a) where
-  p1 == p2 = pnc2 p1 == pnc2 p2
+instance Eq Container where
+  Empty     == Empty      = True
+  Holding x == Holding y  = x == y
+  _         == _          = False
 ~~~~
 
 # Hands-on (3)
 
+* Polymorphic container
+
 ~~~~ {.haskell}
-instance Eq a => Eq (Person2 a) where
-  p1 == p2 = pnc2 p1 == pnc2 p2
+data Container a = Empty | Holding a
+~~~~
+
+* Tentative `Show` and `Eq` instances for `Container a`
+
+~~~~ {.haskell}
+instance Show (Container a) where
+  show Empty        = "[ ]"
+  show (Holding x)  = "[ " ++ show x ++ " ]"
+
+instance Eq (Container a) where
+  Empty     == Empty      = True
+  Holding x == Holding y  = x == y
+  _         == _          = False
+~~~~
+
+# Hands-on (4)
+
+* Polymorphic container
+
+~~~~ {.haskell}
+data Container a = Empty | Holding a
+~~~~
+
+* Correct `Show` and `Eq` instances for `Container a`
+
+~~~~ {.haskell}
+instance Show a => Show (Container a) where
+  show Empty        = "[ ]"
+  show (Holding x)  = "[ " ++ show x ++ " ]"
+
+instance Eq a => Eq (Container a) where
+  Empty     == Empty      = True
+  Holding x == Holding y  = x == y
+  _         == _          = False
 ~~~~
 
 # Digression
 
 ## Types have types!
+
+. . .
 
 * **kind**: the type of a type
 
@@ -233,7 +267,6 @@ fmap :: (a -> b) -> (f a -> f b)
 
 ~~~~ {.haskell}
 data Container a = Empty | Holding a
-  deriving (Show, Eq)
 ~~~~
 
 * Define `fmap` for `Container`
@@ -357,9 +390,31 @@ computation m = do
   return $ y * 5
 ~~~~
 
+# Lists are Monads: example
+
+* Cartesian product using list comprehensions
+
+~~~~ {.haskell}
+cart :: [(Int, Int)]
+cart = [ (x, y) | x <- [1,2,3], y <- [1,2,3] ]
+~~~~
+
+. . .
+
+* ... and monads
+
+~~~~ {.haskell}
+cart' :: [(Int, Int)]
+cart' = do
+  x <- [1,2,3]
+  y <- [1,2,3]
+  return (x, y)
+~~~~
+
+* Exercise: rewrite using `(>>=)`?
+
 # Other Monads
 
-* Lists
 * Functions
 * Global state/"the outside world"
 	* `State`
@@ -367,7 +422,7 @@ computation m = do
 
 # Extra: Limitations of Haskell's Type System
 
-* Type inference automatically finds/checks the right type for us
+* Type inference/checking automatically finds/checks the right type for us
 * ... because all computations on types terminate,
 * ... so Haskell types are not first-class values.
 
@@ -376,7 +431,7 @@ computation m = do
 * Example 1: prove that `map` preserves list length
 * Example 2: restrict a type to a subset of its values (remember `Nat`)
 
-* Alternative: **dependent types** (Agda, Idris)
+* Alternative: **dependent types** (Coq, Agda, Idris)
 	* Types that depend on values
 	* Trade-off: they make type checking more difficult
 
